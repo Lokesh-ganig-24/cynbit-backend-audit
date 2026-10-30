@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cynbit Backend Developer Intern Assessment - Website audit, backend architecture, technical findings and independent Spring Boot reference implementation by Lokesh Ganiga.">
+    <title>Cynbit Backend Audit | Lokesh Ganiga</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background: #080d19;
+            color: #e5e7eb;
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1120px, 90%);
+            margin: auto;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(8, 13, 25, 0.94);
+            border-bottom: 1px solid #202b40;
+            backdrop-filter: blur(12px);
+        }
+
+        nav {
+            min-height: 72px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: #b7c2d4;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        .hero {
+            padding: 105px 0 85px;
+            background:
+                radial-gradient(ellipse at 80% 20%, #173c70 0%, transparent 42%),
+                radial-gradient(ellipse at 10% 80%, #12294c 0%, transparent 35%);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid #315b8d;
+            border-radius: 30px;
+            color: #93c5fd;
+            background: #12243d;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            line-height: 1.12;
+            max-width: 850px;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        h1 span {
+            color: #60a5fa;
+        }
+
+        .hero p {
+            max-width: 720px;
+            color: #aab7ca;
+            font-size: 17px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 21px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid #40516d;
+            color: #dbeafe;
+        }
+
+        .btn-secondary:hover {
+            border-color: #60a5fa;
+        }
+
+        section {
+            padding: 75px 0;
+            border-top: 1px solid #192438;
+        }
+
+        .section-label {
+            color: #60a5fa;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: clamp(27px, 4vw, 38px);
+            margin-bottom: 15px;
+        }
+
+        .section-intro {
+            color: #9eacc0;
+            max-width: 750px;
+            margin-bottom: 35px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #101a2b;
+            border: 1px solid #26344b;
+            border-radius: 13px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: #dbeafe;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .card p, .card li {
+            color: #aab7ca;
+            font-size: 14px;
+        }
+
+        .card ul {
+            padding-left: 19px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #60a5fa;
+            margin-bottom: 8px;
+        }
+
+        .wide-card {
+            margin-top: 22px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .tech {
+            padding: 7px 13px;
+            border-radius: 6px;
+            border: 1px solid #344966;
+            background: #15243a;
+            color: #bfdbfe;
+            font-size: 13px;
+        }
+
+        .architecture {
+            padding: 28px;
+            background: #101a2b;
+            border: 1px solid #26344b;
+            border-radius: 13px;
+            text-align: center;
+        }
+
+        .arch-box {
+            display: inline-block;
+            min-width: 190px;
+            padding: 15px;
+            margin: 8px;
+            background: #172d4b;
+            border: 1px solid #3b6091;
+            border-radius: 9px;
+            color: #dbeafe;
+            font-weight: 700;
+        }
+
+        .arrow {
+            color: #60a5fa;
+            font-size: 23px;
+            display: block;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 18px;
+            border-left: 3px solid #60a5fa;
+            background: #101a2b;
+            color: #aab7ca;
+            font-size: 14px;
+        }
+
+        .finding {
+            border-left: 3px solid #60a5fa;
+        }
+
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .project-links a {
+            color: #93c5fd;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .project-links a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            padding: 35px 0;
+            border-top: 1px solid #26344b;
+            color: #8795aa;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                padding: 15px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 13px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 75px 0;
+            }
+
+            h1 {
+                letter-spacing: -1px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <nav>
+            <a class="logo" href="#">CYNBIT / AUDIT</a>
+
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#findings">Findings</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#backend">Backend</a>
+                <a href="#recommendations">Recommendations</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="container">
+            <div class="tag">BACKEND DEVELOPER INTERN ASSESSMENT</div>
+
+            <h1>
+                Cynbit Website<br>
+                <span>Technical Audit</span>
+            </h1>
+
+            <p>
+                A technical analysis of the publicly accessible Cynbit website,
+                covering its frontend architecture, contact form submission
+                mechanism, backend design considerations, and an independent
+                Spring Boot reference implementation.
+            </p>
+
+            <div class="buttons">
+                <a class="btn btn-primary"
+                   href="https://github.com/Lokesh-ganig-24/cynbit-backend-audit"
+                   target="_blank">
+                    View GitHub Repository ↗
+                </a>
+
+                <a class="btn btn-secondary" href="#overview">
+                    Explore the Audit
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview">
+        <div class="container">
+            <div class="section-label">01 / PROJECT OVERVIEW</div>
+            <h2>About This Assessment</h2>
+
+            <p class="section-intro">
+                This project evaluates observable technical behaviour on
+                Cynbit's public website and demonstrates a possible backend
+                implementation for handling contact inquiries.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <div class="number">01</div>
+                    <h3>Website Analysis</h3>
+                    <p>
+                        Passive inspection of publicly accessible pages,
+                        browser network requests, response headers and
+                        frontend JavaScript.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="number">02</div>
+                    <h3>Backend Design</h3>
+                    <p>
+                        Proposed backend architecture, REST API design,
+                        data validation, persistence and operational
+                        recommendations.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="number">03</div>
+                    <h3>Reference Implementation</h3>
+                    <p>
+                        An independent Java Spring Boot application
+                        demonstrating validated contact inquiry submission
+                        and MySQL persistence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="findings">
+        <div class="container">
+            <div class="section-label">02 / TECHNICAL OBSERVATIONS</div>
+            <h2>Website Audit Findings</h2>
+
+            <p class="section-intro">
+                The following observations are based on passive analysis
+                of the publicly accessible website and its client-side
+                resources.
+            </p>
+
+            <div class="grid">
+                <div class="card finding">
+                    <h3>Frontend Framework</h3>
+                    <p>
+                        Next.js-related client resources and React Server
+                        Components were observed.
+                    </p>
+                </div>
+
+                <div class="card finding">
+                    <h3>Hosting Infrastructure</h3>
+                    <p>
+                        Response headers contained Vercel infrastructure
+                        indicators, including cache-related headers.
+                    </p>
+                </div>
+
+                <div class="card finding">
+                    <h3>Contact Form</h3>
+                    <p>
+                        Five fields were observed: full name, email,
+                        company, industry and message.
+                    </p>
+                </div>
+
+                <div class="card finding">
+                    <h3>Submission Mechanism</h3>
+                    <p>
+                        The client bundle references a Next.js Server
+                        Action named submitInquiry.
+                    </p>
+                </div>
+
+                <div class="card finding">
+                    <h3>Response Handling</h3>
+                    <p>
+                        The frontend contains loading, success and
+                        generic error interface states.
+                    </p>
+                </div>
+
+                <div class="card finding">
+                    <h3>Security Scope</h3>
+                    <p>
+                        Server-side implementation and internal security
+                        controls were not directly inspected.
+                    </p>
+                </div>
+            </div>
+
+            <div class="note">
+                Important: These are observations of publicly accessible
+                website behaviour. They do not establish Cynbit's actual
+                backend framework, database, server-side validation,
+                persistence mechanism or internal security configuration.
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture">
+        <div class="container">
+            <div class="section-label">03 / SYSTEM DESIGN</div>
+            <h2>Proposed Backend Architecture</h2>
+
+            <p class="section-intro">
+                The following architecture represents the independent
+                reference implementation developed for this assessment.
+            </p>
+
+            <div class="architecture">
+                <div class="arch-box">Client / Contact Form</div>
+                <span class="arrow">↓</span>
+
+                <div class="arch-box">REST API Controller</div>
+                <span class="arrow">↓</span>
+
+                <div class="arch-box">Request Validation</div>
+                <span class="arrow">↓</span>
+
+                <div class="arch-box">Service Layer</div>
+                <span class="arrow">↓</span>
+
+                <div class="arch-box">Spring Data JPA Repository</div>
+                <span class="arrow">↓</span>
+
+                <div class="arch-box">MySQL Database</div>
+            </div>
+
+            <div class="note">
+                Architecture flow describes the demo application,
+                not a confirmed representation of Cynbit's internal systems.
+            </div>
+        </div>
+    </section>
+
+    <section id="backend">
+        <div class="container">
+            <div class="section-label">04 / IMPLEMENTATION</div>
+            <h2>Independent Spring Boot Backend</h2>
+
+            <p class="section-intro">
+                A reference backend was developed to demonstrate a
+                maintainable contact inquiry workflow using Java,
+                Spring Boot and MySQL.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>REST Endpoint</h3>
+                    <p><strong>POST</strong> /api/v1/inquiries</p>
+                    <p>
+                        Accepts contact inquiry data and returns a
+                        successful creation response.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Data Validation</h3>
+                    <p>
+                        Required fields, email format and input size
+                        constraints are validated before persistence.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Database Persistence</h3>
+                    <p>
+                        MySQL stores inquiry records using a dedicated
+                        contact_inquiries table.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card wide-card">
+                <h3>Technology Stack</h3>
+
+                <div class="tech-list">
+                    <span class="tech">Java 25</span>
+                    <span class="tech">Spring Boot 4.1.2</span>
+                    <span class="tech">Spring Web</span>
+                    <span class="tech">Spring Data JPA</span>
+                    <span class="tech">Hibernate</span>
+                    <span class="tech">MySQL 8</span>
+                    <span class="tech">Jakarta Validation</span>
+                    <span class="tech">Maven</span>
+                    <span class="tech">Spring Boot Actuator</span>
+                </div>
+            </div>
+
+            <div class="note">
+                The backend is an independently developed reference
+                implementation. It is not Cynbit's original backend
+                source code.
+            </div>
+        </div>
+    </section>
+
+    <section id="recommendations">
+        <div class="container">
+            <div class="section-label">05 / ENGINEERING IMPROVEMENTS</div>
+            <h2>Backend Recommendations</h2>
+
+            <p class="section-intro">
+                The following are general engineering recommendations
+                for a reliable and secure contact inquiry workflow.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Input Validation</h3>
+                    <p>
+                        Apply server-side validation, input length limits
+                        and consistent error responses.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Spam Protection</h3>
+                    <p>
+                        Introduce rate limiting, abuse detection and
+                        appropriate spam protection.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Error Handling</h3>
+                    <p>
+                        Use consistent exception handling, structured
+                        logging and safe client-facing error messages.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Database Management</h3>
+                    <p>
+                        Use database migrations, appropriate indexes
+                        and a defined data retention policy.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Monitoring</h3>
+                    <p>
+                        Monitor service health, API response times
+                        and application errors.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Privacy and Security</h3>
+                    <p>
+                        Protect inquiry data, restrict database access
+                        and manage secrets through environment variables.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="verification">
+        <div class="container">
+            <div class="section-label">06 / VERIFICATION</div>
+            <h2>Implementation Verification</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Application Startup</h3>
+                    <p>Spring Boot application context test passed.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Validation Tests</h3>
+                    <p>Valid and invalid inquiry request tests passed.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Database Persistence</h3>
+                    <p>Valid inquiry persistence was verified.</p>
+                </div>
+            </div>
+
+            <div class="note">
+                Automated test suite: 3 tests passed, with no failures
+                or errors, at the time of project verification.
+            </div>
+        </div>
+    </section>
+
+    <section id="resources">
+        <div class="container">
+            <div class="section-label">07 / PROJECT RESOURCES</div>
+            <h2>Explore the Source Code</h2>
+
+            <p class="section-intro">
+                Review the complete project, technical documentation,
+                architecture and implementation.
+            </p>
+
+            <div class="card">
+                <h3>Cynbit Backend Audit Repository</h3>
+                <p>
+                    Developed by Lokesh Ganiga as part of the
+                    Cynbit Backend Developer Intern assessment.
+                </p>
+
+                <div class="project-links">
+                    <a href="https://github.com/Lokesh-ganig-24/cynbit-backend-audit"
+                       target="_blank">GitHub Repository ↗</a>
+
+                    <a href="https://github.com/Lokesh-ganig-24/cynbit-backend-audit/blob/main/audit-report/01-website-analysis.md"
+                       target="_blank">Read Full Audit Report ↗</a>
+
+                    <a href="https://github.com/Lokesh-ganig-24/cynbit-backend-audit/blob/main/architecture/backend-architecture.md"
+                       target="_blank">Architecture Documentation ↗</a>
+
+                    <a href="https://www.cynbit.in/contact"
+                       target="_blank">Cynbit Public Website ↗</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p>Designed and developed by <strong>Lokesh Ganiga</strong></p>
+        <p>Independent Technical Audit & Backend Reference Implementation</p>
+        <p>© 2026 Lokesh Ganiga. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
